@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ahmad/autoadapter/isl/schema.json",
+  "title": "Interface Specification Language (ISL)",
+  "description": "Schema for describing SmartNIC streaming interface protocols",
+  "type": "object",
+  "required": ["name", "clock_freq", "data_width", "tuser_fields"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the interface specification",
+      "examples": ["OpenNIC_250MHz", "Corundum_mqnic", "Coyote_v2"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description of the interface"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "default": "1.0.0"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source documentation reference for the interface definition"
+    },
+    "reference": {
+      "type": "string",
+      "description": "URL or citation for the source documentation"
+    },
+    "clock_freq": {
+      "type": "number",
+      "description": "Interface clock frequency in MHz",
+      "minimum": 1,
+      "examples": [250, 322, 156.25]
+    },
+    "data_width": {
+      "type": "integer",
+      "description": "Width of the TDATA bus in bits",
+      "minimum": 8,
+      "multipleOf": 8,
+      "examples": [64, 256, 512]
+    },
+    "tuser_width": {
+      "type": "integer",
+      "description": "Total width of TUSER in bits. If omitted, auto-calculated from tuser_fields",
+      "minimum": 0
+    },
+    "tuser_fields": {
+      "type": "array",
+      "description": "List of TUSER sub-fields and their layout",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["field", "width", "valid_on"],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Name of the field (e.g. pkt_size, src_id, dst_id)",
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width of the field in bits",
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Bit offset within TUSER. If omitted, auto-calculated as packed sequentially",
+            "minimum": 0
+          },
+          "valid_on": {
+            "type": "string",
+            "description": "When this field is valid",
+            "enum": ["first_beat", "all_beats", "last_beat"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description of the field's purpose"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tuser_encoding": {
+      "type": "object",
+      "description": "TUSER encoding details",
+      "properties": {
+        "byte_offset": {
+          "type": "integer",
+          "description": "Byte offset of TUSER relative to TDATA (0-based)",
+          "minimum": 0,
+          "default": 0
+        },
+        "bit_order": {
+          "type": "string",
+          "description": "Bit ordering convention",
+          "enum": ["little_endian", "big_endian"],
+          "default": "little_endian"
+        }
+      },
+      "additionalProperties": false
+    },
+    "protocol_quirks": {
+      "type": "object",
+      "description": "Protocol-specific rules and requirements",
+      "properties": {
+        "tlast_required": {
+          "type": "boolean",
+          "description": "Whether TLAST is required to mark end of packet",
+          "default": true
+        },
+        "tkeep_required": {
+          "type": "boolean",
+          "description": "Whether TKEEP is required for byte-level validity",
+          "default": true
+        },
+        "backpressure": {
+          "type": "string",
+          "description": "Backpressure mechanism",
+          "enum": ["ready_valid", "tready_only", "none"],
+          "default": "ready_valid"
+        },
+        "metadata_must_span_entire_packet": {
+          "type": "boolean",
+          "description": "Whether TUSER metadata must remain constant for the entire packet",
+          "default": true
+        },
+        "tuser_keep_on_idle": {
+          "type": "boolean",
+          "description": "Whether TUSER should be held when interface is idle",
+          "default": false
+        },
+        "tstrb_present": {
+          "type": "boolean",
+          "description": "Whether TSTRB signal is present",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "clock_domains": {
+      "type": "array",
+      "description": "Multiple clock domains if the interface has more than one",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Clock domain name"
+          },
+          "freq": {
+            "type": "number",
+            "description": "Frequency in MHz"
+          }
+        },
+        "required": ["name", "freq"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

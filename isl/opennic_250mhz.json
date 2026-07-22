@@ -1,0 +1,52 @@
+{
+  "name": "OpenNIC_250MHz",
+  "description": "OpenNIC shell CMAC streaming interface at 250 MHz for 100G operation",
+  "version": "1.1.0",
+  "source": "OpenNIC Shell Technical Reference (github.com/Xilinx/open-nic-shell) — CMAC wrapper, axis_data_fifo configuration, and CMAC IP core AXI4-Stream interface. Field layout verified against opennic_shell_wrapper.sv and the shell's CMAC instantiation.",
+  "reference": "https://github.com/Xilinx/open-nic-shell",
+  "clock_freq": 250,
+  "data_width": 512,
+  "tuser_width": 64,
+  "tuser_fields": [
+    {
+      "field": "pkt_size",
+      "width": 16,
+      "offset": 0,
+      "valid_on": "first_beat",
+      "description": "Packet size in bytes"
+    },
+    {
+      "field": "src_id",
+      "width": 16,
+      "offset": 16,
+      "valid_on": "first_beat",
+      "description": "Source port identifier"
+    },
+    {
+      "field": "dst_id",
+      "width": 16,
+      "offset": 32,
+      "valid_on": "first_beat",
+      "description": "Destination port identifier"
+    },
+    {
+      "field": "user",
+      "width": 16,
+      "offset": 48,
+      "valid_on": "first_beat",
+      "description": "User-defined metadata / reserved"
+    }
+  ],
+  "tuser_encoding": {
+    "byte_offset": 0,
+    "bit_order": "little_endian"
+  },
+  "protocol_quirks": {
+    "tlast_required": true,
+    "tkeep_required": true,
+    "backpressure": "ready_valid",
+    "metadata_must_span_entire_packet": true,
+    "tuser_keep_on_idle": false,
+    "tstrb_present": false
+  }
+}

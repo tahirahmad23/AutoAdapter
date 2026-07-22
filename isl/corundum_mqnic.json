@@ -1,0 +1,55 @@
+{
+  "name": "Corundum_mqnic_app_block_sync_rx",
+  "description": "Corundum mqnic_app_block *axis_sync_* RX streaming interface — default 100G configuration with PTP TOD timestamp. Models the datapath-synchronous RX interface (PTP_TS_ENABLE=1, PTP_TS_FMT_TOD=1). NOTE: TX TUSER is only 17 bits (TX_TAG_WIDTH+1), RX is 97 bits; this ISL models the wider RX path only.",
+  "version": "2.0.0",
+  "source": "Corundum open-source NIC (github.com/corundum/corundum) — mqnic_app_block.sv, axis_sync_rx module. PTP timestamp format verified against Corundum PTP core and IEEE 1588 TOD format.",
+  "reference": "https://github.com/corundum/corundum",
+  "clock_freq": 250,
+  "data_width": 512,
+  "tuser_width": 97,
+  "tuser_fields": [
+    {
+      "field": "ptp_valid",
+      "width": 1,
+      "offset": 0,
+      "valid_on": "first_beat",
+      "description": "PTP timestamp valid flag"
+    },
+    {
+      "field": "ptp_ts_sec",
+      "width": 48,
+      "offset": 1,
+      "valid_on": "first_beat",
+      "description": "PTP Timestamp — seconds portion (48-bit TOD format)"
+    },
+    {
+      "field": "ptp_ts_ns",
+      "width": 48,
+      "offset": 49,
+      "valid_on": "first_beat",
+      "description": "PTP Timestamp — nanoseconds portion (48-bit TOD format)"
+    }
+  ],
+  "tuser_encoding": {
+    "byte_offset": 0,
+    "bit_order": "little_endian"
+  },
+  "protocol_quirks": {
+    "tlast_required": true,
+    "tkeep_required": true,
+    "backpressure": "ready_valid",
+    "metadata_must_span_entire_packet": true,
+    "tuser_keep_on_idle": false,
+    "tstrb_present": false
+  },
+  "clock_domains": [
+    {
+      "name": "axis_clk",
+      "freq": 250
+    },
+    {
+      "name": "cmac_clk",
+      "freq": 322
+    }
+  ]
+}

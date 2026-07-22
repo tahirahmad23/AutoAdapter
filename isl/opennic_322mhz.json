@@ -1,0 +1,62 @@
+{
+  "name": "OpenNIC_322MHz",
+  "description": "OpenNIC shell CMAC streaming interface at 322.265625 MHz for 100G operation. Models the 322 MHz user logic box (cmac_clk domain). Has same TUSER format as the 250 MHz box but tighter timing (3.103 ns period).",
+  "version": "1.1.0",
+  "source": "OpenNIC Shell Technical Reference (github.com/Xilinx/open-nic-shell) — CMAC wrapper with 322.265625 MHz clock domain for 100G operation. TUSER layout identical to 250 MHz variant.",
+  "reference": "https://github.com/Xilinx/open-nic-shell",
+  "clock_freq": 322.265625,
+  "data_width": 512,
+  "tuser_width": 64,
+  "tuser_fields": [
+    {
+      "field": "pkt_size",
+      "width": 16,
+      "offset": 0,
+      "valid_on": "first_beat",
+      "description": "Packet size in bytes"
+    },
+    {
+      "field": "src_id",
+      "width": 16,
+      "offset": 16,
+      "valid_on": "first_beat",
+      "description": "Source port identifier"
+    },
+    {
+      "field": "dst_id",
+      "width": 16,
+      "offset": 32,
+      "valid_on": "first_beat",
+      "description": "Destination port identifier"
+    },
+    {
+      "field": "user",
+      "width": 16,
+      "offset": 48,
+      "valid_on": "first_beat",
+      "description": "User-defined metadata / reserved"
+    }
+  ],
+  "tuser_encoding": {
+    "byte_offset": 0,
+    "bit_order": "little_endian"
+  },
+  "protocol_quirks": {
+    "tlast_required": true,
+    "tkeep_required": true,
+    "backpressure": "ready_valid",
+    "metadata_must_span_entire_packet": true,
+    "tuser_keep_on_idle": false,
+    "tstrb_present": false
+  },
+  "clock_domains": [
+    {
+      "name": "axis_clk",
+      "freq": 322.265625
+    },
+    {
+      "name": "cmac_clk",
+      "freq": 322.265625
+    }
+  ]
+}

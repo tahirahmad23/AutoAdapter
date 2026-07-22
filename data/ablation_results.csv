@@ -1,0 +1,4 @@
+accel,hls_latency,heuristic_fifo_depth,heuristic_reg_slices,heuristic_clock_crossing,ml_fifo_depth,ml_reg_slices,ml_clock_crossing,depth_reduction,slice_reduction
+accel_lat16,16,64,2,False,16,1,False,48,1
+accel_lat4,4,16,2,False,4,1,False,12,1
+accel_lat8,8,32,2,False,8,1,False,24,1

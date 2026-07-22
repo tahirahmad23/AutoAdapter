@@ -1,0 +1,8 @@
+Module: packet_monitor
+Clock period: 3.106 ns
+Target frequency: 322.0 MHz
+Port list:
+  s_axis  (input)  width=512  interface=axis
+  m_axis  (output) width=512  interface=axis
+  ap_clk  (input)  width=1    interface=ap_clk
+  ap_rst_n(input)  width=1    interface=ap_rst_n

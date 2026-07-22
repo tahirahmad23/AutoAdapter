@@ -1,0 +1,76 @@
+{
+  "name": "Coyote_v2_user_logic",
+  "description": "Coyote v2 user logic region streaming interface — default 100G configuration",
+  "version": "1.1.0",
+  "source": "Coyote v2 (github.com/fpgasystems/coyote) — User Logic Region streaming interface specification, Coyote v2 Architecture Manual. See Section 3: User Logic Streaming Interface for TUSER field layout.",
+  "reference": "https://github.com/fpgasystems/coyote",
+  "clock_freq": 250,
+  "data_width": 512,
+  "tuser_width": 64,
+  "tuser_fields": [
+    {
+      "field": "stream_id",
+      "width": 8,
+      "offset": 0,
+      "valid_on": "first_beat",
+      "description": "Stream / channel identifier"
+    },
+    {
+      "field": "src_id",
+      "width": 8,
+      "offset": 8,
+      "valid_on": "first_beat",
+      "description": "Source accelerator identifier"
+    },
+    {
+      "field": "dst_id",
+      "width": 8,
+      "offset": 16,
+      "valid_on": "first_beat",
+      "description": "Destination accelerator identifier"
+    },
+    {
+      "field": "pkt_len",
+      "width": 16,
+      "offset": 24,
+      "valid_on": "first_beat",
+      "description": "Packet length in bytes"
+    },
+    {
+      "field": "flags",
+      "width": 8,
+      "offset": 40,
+      "valid_on": "first_beat",
+      "description": "Control flags (e.g. start_of_packet, end_of_packet, error)"
+    },
+    {
+      "field": "user",
+      "width": 16,
+      "offset": 48,
+      "valid_on": "first_beat",
+      "description": "User-defined metadata / reserved"
+    }
+  ],
+  "tuser_encoding": {
+    "byte_offset": 0,
+    "bit_order": "little_endian"
+  },
+  "protocol_quirks": {
+    "tlast_required": true,
+    "tkeep_required": true,
+    "backpressure": "ready_valid",
+    "metadata_must_span_entire_packet": true,
+    "tuser_keep_on_idle": false,
+    "tstrb_present": false
+  },
+  "clock_domains": [
+    {
+      "name": "shell_clk",
+      "freq": 250
+    },
+    {
+      "name": "user_clk",
+      "freq": 250
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+shell,accel,clock_crossing,luts_min,luts_max,luts_mean,luts_median,ffs_min,ffs_max,ffs_mean,ffs_median,category
+0,accel_lat16,0,121,237,160,139,1277,2695,1976,1968,shell+adapter_total
+0,accel_lat16,1,39,105,66,57,2080,2148,2109,2104,shell+adapter_total
+0,accel_lat4,0,121,237,160,139,1265,2683,1964,1956,shell+adapter_total
+0,accel_lat4,1,39,105,66,57,2068,2136,2097,2092,shell+adapter_total
+0,accel_lat8,0,121,237,160,139,1269,2687,1968,1960,shell+adapter_total
+0,accel_lat8,1,39,105,66,57,2072,2140,2101,2096,shell+adapter_total
+1,accel_lat16,0,173,351,220,206,1244,2596,1910,1902,shell+adapter_total
+1,accel_lat16,1,1610,1791,1661,1631,1985,2082,2023,2017,shell+adapter_total
+1,accel_lat4,0,173,351,220,206,1232,2584,1898,1890,shell+adapter_total
+1,accel_lat4,1,1610,1791,1661,1631,1973,2070,2011,2005,shell+adapter_total
+1,accel_lat8,0,173,351,220,206,1236,2588,1902,1894,shell+adapter_total
+1,accel_lat8,1,1610,1791,1661,1631,1977,2074,2015,2009,shell+adapter_total
